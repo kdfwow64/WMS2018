@@ -1,0 +1,20 @@
+
+.single_gridview {
+	width: 700px;
+	margin: auto;
+}
+
+@media(max-width: 720px) {
+	.single_gridview {
+		width: 100%;
+		margin: auto;
+	}
+}
+
+.num_size {
+	width: 50px;
+}
+
+.div_align {
+	text-align: center;
+}
