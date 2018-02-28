@@ -39,10 +39,7 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-    
-    /**
-     * @inheritdoc
-     */
+
     public function behaviors()
     {
         return [
