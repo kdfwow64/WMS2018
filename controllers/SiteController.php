@@ -86,7 +86,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if(yii::$app->user->isGuest)
+            return $this->redirect(Yii::$app->urlManager->createUrl('/site/login'));
+        return $this->redirect(Yii::$app->urlManager->createUrl('/site/workflowprocessingwaves'));
     }
 
     /**
@@ -105,7 +107,7 @@ class SiteController extends Controller
             return $this->goBack();
         }
 
-        $model->password = '';
+        $model->user_pass = '';
         return $this->render('login', [
             'model' => $model,
         ]);

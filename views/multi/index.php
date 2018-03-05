@@ -27,19 +27,14 @@ $this->title = 'Multiple Pick Orders';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn','header' => 'No'],
 
-            [
-                'label' => 'ID',
-                'attribute' => 'id',
-                'headerOptions' => ['width' => '80'],
-//                'filter' => array("1" => "1","2" => "2"),
-            ],
+            'id',
             'NS_sales_order',
-            'order_type',
+        //    'order_type',
             [
                 'label' => 'SKU',
                 'attribute' => 'SKU',
                 'value' => 'orderDispatchItems.SKU',
-                'headerOptions' => ['width' => '120'],
+            //    'headerOptions' => ['width' => '120'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

@@ -48,6 +48,7 @@ class OrderDispatchSearch extends OrderDispatch
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['attributes' => ['SKU','NS_sales_order','id']],
             'pagination' => [
                 'pageSize' => 5,
             ],

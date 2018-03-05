@@ -1,4 +1,4 @@
-
+/*
 .single_gridview {
 	width: 700px;
 	margin: auto;
@@ -10,11 +10,38 @@
 		margin: auto;
 	}
 }
+*/
 
+.single_gridview {
+	margin: auto;
+}
 .num_size {
 	width: 50px;
 }
 
 .div_align {
 	text-align: center;
+}
+.navbar-header img {
+	width: 70px;
+	margin-top: -10px;
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
 }

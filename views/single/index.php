@@ -28,14 +28,9 @@ $this->title = 'Single Pick Orders';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn','header' => 'No'],
 
-            [
-                'label' => 'ID',
-                'attribute' => 'id',
-                'headerOptions' => ['width' => '80'],
-//                'filter' => array("1" => "1","2" => "2"),
-            ],
+            'id',
             'NS_sales_order',
-            'order_type',
+        //    'order_type',
             [
                 'label' => 'SKU',
                 'attribute' => 'SKU',

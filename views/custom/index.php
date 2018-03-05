@@ -28,16 +28,16 @@ $this->title = 'Custom Pick Orders';
 
             'id',
             'NS_sales_order',
-            'shipping_address',
-            'shipping_method',
-            'status',
-            'order_type',
+      //      'shipping_address',
+      //      'shipping_method',
+      //      'status',
+      //      'order_type',
             //'order_priority',
             [
                 'label' => 'SKU',
                 'attribute' => 'SKU',
                 'value' => 'orderDispatchItems.SKU',
-                'headerOptions' => ['width' => '120'],
+        //        'headerOptions' => ['width' => '120'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
