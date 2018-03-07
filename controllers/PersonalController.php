@@ -4,15 +4,15 @@ namespace app\controllers;
 
 use Yii;
 use app\models\OrderDispatchItems;
-use app\models\CustomPickSearch;
+use app\models\PersonalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CustomPickController implements the CRUD actions for OrderDispatchItems model.
+ * PersonalController implements the CRUD actions for OrderDispatchItems model.
  */
-class CustomController extends Controller
+class PersonalController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -37,7 +37,7 @@ class CustomController extends Controller
     {
         if(yii::$app->user->isGuest)
             return $this->redirect(Yii::$app->urlManager->createUrl('/site/login'));
-        $searchModel = new CustomPickSearch();
+        $searchModel = new PersonalSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

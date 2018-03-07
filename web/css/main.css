@@ -11,7 +11,48 @@
 	}
 }
 */
+.bulk_table {
+	width: 400px;
+	margin: auto;
+}
+.table_height {
+}
+.table_height thead {
+	float: left;
+	width: 100%;
+}
+ .table_height tbody {
+	float: left;
+	overflow: auto;
+	width: 100%;
+	height: 400px;
+}
+.table_height table td:nth-child(1) {
+	width: 30px;
+}
+.table_height table td:nth-child(2) {
+	width: 60px;
+}
+.table_height table td:nth-child(3) {
+	width: 80%;
+}
 
+.table_height table th:nth-child(1) {
+	width: 30px;
+}
+.table_height table th:nth-child(2) {
+	width: 60px;
+}
+.table_height table th:nth-child(3) {
+	width: 81%;
+}
+
+
+
+table { 
+  width: 100%; 
+  border-collapse: collapse;
+}
 .single_gridview {
 	margin: auto;
 }
@@ -26,11 +67,6 @@
 	width: 70px;
 	margin-top: -10px;
 }
-
-table { 
-  width: 100%; 
-  border-collapse: collapse;
-}
 /* Zebra striping */
 tr:nth-of-type(odd) { 
   background: #eee; 
@@ -44,4 +80,26 @@ td, th {
   padding: 6px; 
   border: 1px solid #ccc; 
   text-align: left; 
+}
+
+@media only screen and (min-width: 700px) {
+	.single_gridview {
+		width: 700px;
+	}
+	.col-lg-8 {
+		width: auto !important;
+		margin-left: 10px;
+	}
+
+	.control-label {
+		margin-right: 25px !important;
+	}
+
+	.site-login {
+		padding-left: 36% !important;
+	}
+
+	.form-control {
+		width: auto;
+	}
 }

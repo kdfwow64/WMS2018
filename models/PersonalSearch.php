@@ -7,7 +7,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\OrderDispatchItems;
 
-class MultiPickSearch extends OrderDispatchItems
+class PersonalSearch extends OrderDispatchItems
 {
 
     public $NS_sales_order;
@@ -35,7 +35,7 @@ class MultiPickSearch extends OrderDispatchItems
      */
     public function search($params)
     {
-        $query = OrderDispatchItems::find()->joinWith('orderDispatch')->where(['order_type' => 'S']);
+        $query = OrderDispatchItems::find()->joinWith('orderDispatch')->where(['order_type' => 'P']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

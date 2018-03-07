@@ -4,15 +4,16 @@ namespace app\controllers;
 
 use Yii;
 use app\models\OrderDispatchItems;
-use app\models\CustomPickSearch;
+use app\models\SingleBulkSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\SqlDataProvider;
 
 /**
- * CustomPickController implements the CRUD actions for OrderDispatchItems model.
+ * SinglebulkController implements the CRUD actions for OrderDispatchItems model.
  */
-class CustomController extends Controller
+class SinglebulkController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -33,16 +34,45 @@ class CustomController extends Controller
      * Lists all OrderDispatchItems models.
      * @return mixed
      */
+
+    public function actionWave()
+    {
+        $selection = (array) Yii::$app->request->post('selection');
+        $model = new SingleBulkSearch();
+        $model->setStatus($selection);
+        return Yii::$app->runAction('singlebulk/index');
+    }
     public function actionIndex()
     {
         if(yii::$app->user->isGuest)
+        {
+            echo "<script type='text/javascript'>alert('Please login!');</script>";
             return $this->redirect(Yii::$app->urlManager->createUrl('/site/login'));
-        $searchModel = new CustomPickSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        }
+        $dataProvider = new SqlDataProvider([
+            'db' => Yii::$app->db,
+            'sql' => "SELECT parent_order_ID, CONCAT(SKU, '(',COUNT(SKU), ')') AS SKU1,SKU,COUNT(SKU) AS COUNT FROM order_dispatch_items od JOIN order_dispatch oi ON od.parent_order_ID = oi.id WHERE od.status LIKE 'U'  GROUP BY SKU",
+            'pagination' => [
+                'pageSize' =>50,
+            ],
+        ]);
+        if(isset($_POST['sel_location'])){
+            $req = Yii::$app->request;
+            $loc = $req->post('sel_location');
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+            $dataProvider = new SqlDataProvider([
+                'db' => Yii::$app->db,
+                'sql' => "SELECT parent_order_ID, CONCAT(SKU, '(',COUNT(SKU), ')') AS SKU1,SKU,COUNT(SKU) AS COUNT FROM order_dispatch_items od JOIN order_dispatch oi ON od.parent_order_ID = oi.id WHERE od.location = ".$loc."  GROUP BY SKU",
+                'pagination' => [
+                    'pageSize' =>50,
+                ],
+            ]);
+        }
+        $model = new SingleBulkSearch(); 
+        $locations = $model->getLocation();
+        return $this->render('index',[
             'dataProvider' => $dataProvider,
+            'locations' =>$locations,
         ]);
     }
 

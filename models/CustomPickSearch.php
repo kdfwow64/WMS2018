@@ -5,27 +5,21 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\OrderDispatch;
+use app\models\OrderDispatchItems;
 
-/**
- * CustomPickSearch represents the model behind the search form of `app\models\OrderDispatch`.
- */
-class CustomPickSearch extends OrderDispatch
+class CustomPickSearch extends OrderDispatchItems
 {
-    /**
-     * {@inheritdoc}
-     */
-    public $SKU;
+
+    public $NS_sales_order;
+    // You have to set NS_sales_order as safe to show filter box
     public function rules()
     {
         return [
-            [['NS_sales_order', 'shipping_address', 'shipping_method', 'status', 'order_type','SKU'], 'safe'],
+            [['id', 'parent_order_ID', 'quantity', 'wave_number'], 'integer'],
+            [['SKU', 'location', 'status', 'time_printed', 'date_printed','NS_sales_order'], 'safe'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -41,9 +35,7 @@ class CustomPickSearch extends OrderDispatch
      */
     public function search($params)
     {
-        $query = OrderDispatch::find()->where(['order_type' => 'Custom']);
-        $query->joinWith('orderDispatchItems');
-        // add conditions that should always apply here
+        $query = OrderDispatchItems::find()->joinWith('orderDispatch')->where(['order_type' => 'C']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -63,16 +55,12 @@ class CustomPickSearch extends OrderDispatch
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'order_priority' => $this->order_priority,
+            'parent_order_ID' => $this->parent_order_ID,
         ]);
 
-        $query->andFilterWhere(['like', 'NS_sales_order', $this->NS_sales_order])
-            ->andFilterWhere(['like', 'shipping_address', $this->shipping_address])
-            ->andFilterWhere(['like', 'shipping_method', $this->shipping_method])
-            ->andFilterWhere(['like', 'status', $this->status])
-            ->andFilterWhere(['like', 'order_dispatch_items.SKU', $this->SKU])
-            ->andFilterWhere(['like', 'order_type', $this->order_type]);
+        $query->andFilterWhere(['like', 'SKU',  $this->SKU])
+            ->andFilterWhere(['like', 'order_dispatch.NS_sales_order', $this->NS_sales_order])
+            ->andFilterWhere(['like', 'order_dispatch.id', $this->id]);
 
         return $dataProvider;
     }

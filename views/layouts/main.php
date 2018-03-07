@@ -20,6 +20,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="<?php echo Yii::$app->request->baseUrl; ?>/favicon.ico" type="image/x-icon" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -40,19 +41,16 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             [
-                'label' => 'Wave Generation Overview', 
+                'label' => 'Wave Generation', 
                 'items' => array(
-                    array(
-                        'label' => 'Single Pick Orders (bulk creation)', 'items' => array( array('label' => 'Wave Printout', 'url' => ['/site/waveprintout']))
-      
-                    ),
-                    array('label' => 'Single Pick Orders (custom)', 'url' => ['/single/index']),
-                    array('label' => 'Multiple Pick Orders', 'url' => ['/multi/index']),
-                    array('label' => 'Custom Fit Orders', 'url' => ['/custom/index']),
-                    array('label' => 'Personalised Orders', 'url' => ['/site/personalisedorders'])
+                    array('label' => 'Single(bulk)', 'url' => ['/singlebulk/index']),
+                    array('label' => 'Single(custom)', 'url' => ['/single/index']),
+                    array('label' => 'Multiple', 'url' => ['/multi/index']),
+                    array('label' => 'CustomFit', 'url' => ['/custom/index']),
+                    array('label' => 'Personalised', 'url' => ['/personal/index'])
                 )
             ],
-            ['label' => 'Workflow processing waves', 'url' => ['/site/workflowprocessingwaves']],
+            ['label' => 'Processing Waves', 'url' => ['/site/workflowprocessingwaves']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

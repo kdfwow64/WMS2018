@@ -2,48 +2,47 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\CustomPickSearch */
+/* @var $searchModel app\models\SinglePickSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Custom Pick Orders';
-//$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="order-dispatch-index div_align">
+<div class="order-dispatch-items-index div_align">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-<!--
-    <p>
-        <?= Html::a('Create Order Dispatch', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
+
+    <?php $form = ActiveForm::begin([
+        'id' => 'custom-form',
+        'options' => ['class' => 'form-horizontal'],
+    ]) 
+    ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'options' => ['class' => 'grid-view single_gridview'],
         'columns' => [
+            ['class' => 'yii\grid\CheckboxColumn'],
             ['class' => 'yii\grid\SerialColumn','header' => 'No'],
-
-            'id',
-            'NS_sales_order',
-      //      'shipping_address',
-      //      'shipping_method',
-      //      'status',
-      //      'order_type',
-            //'order_priority',
             [
-                'label' => 'SKU',
-                'attribute' => 'SKU',
-                'value' => 'orderDispatchItems.SKU',
-        //        'headerOptions' => ['width' => '120'],
+                'label' => 'ID',
+                'attribute' => 'id',
+                'value' => 'orderDispatch.id',
             ],
             [
-                'class' => 'yii\grid\ActionColumn',
-                'header' => 'Action',
-                'headerOptions' => ['width' => '80'],
+                'label' => 'NS_Sales_Order',
+                'attribute' => 'NS_sales_order',
+                'value' => 'orderDispatch.NS_sales_order',
             ],
+            'SKU',
         ],
     ]); ?>
+
+    <?= Html::submitButton('Wave Generation',['class' => 'btn btn-primary']) ?>
+    
+    <?php
+    ActiveForm::end()
+    ?>
 </div>

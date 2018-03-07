@@ -7,14 +7,14 @@ use yii\widgets\ActiveForm;
 /* @var $searchModel app\models\SinglePickSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Multiple Pick Orders';
+$this->title = 'Personalized Orders';
 ?>
 <div class="order-dispatch-items-index div_align">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php $form = ActiveForm::begin([
-        'id' => 'multi-form',
+        'id' => 'personal-form',
         'options' => ['class' => 'form-horizontal'],
     ]) 
     ?>

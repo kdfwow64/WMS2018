@@ -3,14 +3,14 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\OrderDispatch;
+use app\models\OrderDispatchItems;
 use app\models\MultiPickSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * MultiController implements the CRUD actions for OrderDispatch model.
+ * MultiPickController implements the CRUD actions for OrderDispatchItems model.
  */
 class MultiController extends Controller
 {
@@ -30,11 +30,13 @@ class MultiController extends Controller
     }
 
     /**
-     * Lists all OrderDispatch models.
+     * Lists all OrderDispatchItems models.
      * @return mixed
      */
     public function actionIndex()
     {
+        if(yii::$app->user->isGuest)
+            return $this->redirect(Yii::$app->urlManager->createUrl('/site/login'));
         $searchModel = new MultiPickSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -45,7 +47,7 @@ class MultiController extends Controller
     }
 
     /**
-     * Displays a single OrderDispatch model.
+     * Displays a single OrderDispatchItems model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,13 +60,13 @@ class MultiController extends Controller
     }
 
     /**
-     * Creates a new OrderDispatch model.
+     * Creates a new OrderDispatchItems model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new OrderDispatch();
+        $model = new OrderDispatchItems();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -76,7 +78,7 @@ class MultiController extends Controller
     }
 
     /**
-     * Updates an existing OrderDispatch model.
+     * Updates an existing OrderDispatchItems model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +98,7 @@ class MultiController extends Controller
     }
 
     /**
-     * Deletes an existing OrderDispatch model.
+     * Deletes an existing OrderDispatchItems model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +112,15 @@ class MultiController extends Controller
     }
 
     /**
-     * Finds the OrderDispatch model based on its primary key value.
+     * Finds the OrderDispatchItems model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return OrderDispatch the loaded model
+     * @return OrderDispatchItems the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = OrderDispatch::findOne($id)) !== null) {
+        if (($model = OrderDispatchItems::findOne($id)) !== null) {
             return $model;
         }
 

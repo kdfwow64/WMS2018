@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="order-dispatch-search">
+<div class="order-dispatch-items-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,17 +17,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'NS_sales_order') ?>
+    <?= $form->field($model, 'parent_order_ID') ?>
 
-    <?= $form->field($model, 'shipping_address') ?>
+    <?= $form->field($model, 'SKU') ?>
 
-    <?= $form->field($model, 'shipping_method') ?>
+    <?= $form->field($model, 'quantity') ?>
 
-    <?= $form->field($model, 'status') ?>
+    <?= $form->field($model, 'location') ?>
 
-    <?php // echo $form->field($model, 'order_type') ?>
+    <?php // echo $form->field($model, 'status') ?>
 
-    <?php // echo $form->field($model, 'order_priority') ?>
+    <?php // echo $form->field($model, 'wave_number') ?>
+
+    <?php // echo $form->field($model, 'time_printed') ?>
+
+    <?php // echo $form->field($model, 'date_printed') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -26,6 +26,10 @@ class OrderDispatchItems extends \yii\db\ActiveRecord
     {
         return 'order_dispatch_items';
     }
+    /**connect with OrderDispatch */
+    public function getOrderDispatch(){
+        return $this->hasOne(OrderDispatch::className(),['id' => 'parent_order_ID']);
+    }
 
     /**
      * {@inheritdoc}
@@ -47,7 +51,7 @@ class OrderDispatchItems extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'parent_order_ID' => 'Parent Order  ID',
-            'SKU' => 'Sku',
+            'SKU' => 'SKU',
             'quantity' => 'Quantity',
             'location' => 'Location',
             'status' => 'Status',

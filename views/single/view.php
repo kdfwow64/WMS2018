@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\OrderDispatch */
+/* @var $model app\models\OrderDispatchItems */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Order Dispatches', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Order Dispatch Items', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="order-dispatch-view">
+<div class="order-dispatch-items-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,12 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'NS_sales_order',
-            'shipping_address',
-            'shipping_method',
+            'parent_order_ID',
+            'SKU',
+            'quantity',
+            'location',
             'status',
-            'order_type',
-            'order_priority',
+            'wave_number',
+            'time_printed',
+            'date_printed',
         ],
     ]) ?>
 
