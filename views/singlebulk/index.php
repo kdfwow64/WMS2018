@@ -9,125 +9,120 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Single Pick Orders(Bulk)';
 ?>
-
 <div class="order-dispatch-items-index div_align">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <h3 class="singlebulk_title"><?= Html::encode($this->title) ?></h3>
     
-    <select id="sel_location" name="sel_location">
-        <?php
-        foreach($locations as $location){
-        ?>
-            <option value="<?=$location['id']?>"><?=$location['warehouse_name']?></option>
-        <?php
-        }
-        ?>
-    </select>
     <?php $form = ActiveForm::begin([
         'id' => 'singlebulk-form',
-        'options' => ['class' => 'form-horizontal bulk_table'],
-        'action' => Yii::$app->urlManager->createAbsoluteUrl(['singlebulk/wave']),
+        'options' => ['class' => 'form-horizontal singlebulk_table'],
     ])
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'options' => ['class' => 'grid-view table_height'],
+        'options' => ['class' => 'grid-view singlebulk_table havenum'],
+        'id' => 'grid',
 //        'layout' => "{summary}\n{items}\n<div align='left'>{pager}</div>",
         'columns' => [
             [
                 'class' => 'yii\grid\CheckboxColumn',
-                'cssClass' => 'check_css',
+                'cssClass' => 'singlebulk_check_css',
+                'content' => function ($model,$key,$index,$column) {
+                    return '<div class="checkbox checkbox-primary m-r-15">'.$column.'<label for="checkbox"></label></div>';
+                },
                 'checkboxOptions' => function($model,$key,$index,$widget) {
                     return ['value' => $model['SKU']];
-                }
+                },
             ],
             ['class' => 'yii\grid\SerialColumn','header' => 'No'],
             ['label' => 'SKU','value' => 'SKU1'],
+            ['label' => 'Location','value' => 'location'],
         ],
-    ]); ?>
+    ]); 
+    ?>
+    <input type="hidden" name="singlebulk_flag" id="singlebulk_flag" value="5">
     <?= Html::submitButton('Wave Generation',['class' => 'btn btn-primary']) ?>
-<!--
-    <?= Html::a('Wave Generation',['/singlebulk/wave'],['class' => 'btn btn-primary']) ?>
--->
+
     <?php
     ActiveForm::end()
     ?>
 </div>
-
 <script type="text/javascript">
-    //notifyjs.com
+
     $(document).ready(function(){
-        $('#sel_location').change(function(){
-            $('#singlebulk-form').submit();
+         <?php
+        $session = Yii::$app->session;
+        if(isset($session['checked_array1'])){
+            $values = json_encode($session['checked_array1']);
+        } else {
+            $values =0;
+        }
+        ?>
+        var str = <?php echo $values; ?>;
+        console.log(str);
+        var ff = 0;
+        $('.singlebulk_check_css').each(function(){
+            var ss = $(this).closest('tr').children().eq(2).html();
+            for(var i =0 ;i<str.length;i++) {
+                if(str[i] == ss){
+                    $(this).attr('checked','checked');
+                }
+            }
+            if(!$(this).is(':checked')) {
+                ff = 1;
+            }
         });
-        $('.check_css').click(function(){
-            var selected_count = $('input[type="checkbox"]:checked').length;
-            var total_count = 0;
-            $('input[type="checkbox"]:checked').each(function()
-            {
-                var ss = $(this).parent().next().next().html();
-                start = ss.search('\\(');
-                end = ss.search('\\)');
-                ss = ss.slice(start+1,end);
-                total_count = total_count + parseInt(ss);
+        if(ff == 0)
+            $('.select-on-check-all').attr('checked','checked');
+        $('.singlebulk_check_css').click(function(){
+            var sku = $(this).closest('tr').children().eq(2).html();
+            var flag = "remove";
+            if($(this).is(':checked')) {
+                flag = "add";
+            }
+            $.ajax({
+                type: "POST",
+                url: '<?php echo Yii::$app->request->baseUrl. '/index.php?r=singlebulk%2Fsample&id=1' ?>',
+                data: {
+                    sel: sku,
+                    flag: flag
+                },
+                success: function(result){
+                //   console.log(result);
+                },
+                error: function(result) {
+                   // alert("failed");
+                }
             });
             
-            var str = selected_count+" items selected(total:" +total_count+")";
-            $('.notifyjs-corner').empty();
-            var noteOption = {
-                // whether to hide the notification on click
-                clickToHide : true,
-                // whether to auto-hide the notification
-                autoHide : false,
-//                position : '0',
-                globalPosition : 'top center',
-                // default style
-                style : 'bootstrap',
-                // default class (string or [string])
-                className : 'error',
-                // show animation
-                showAnimation : 'slideDown',
-                // show animation duration
-                showDuration : 200,
-                // hide animation
-                hideAnimation : 'slideUp',
-                // hide animation duration
-                hideDuration : 200,
-                // padding between element and notification
-                gap : 20,
-                autoHide : true,
-                autoHideDelay : 2000
-            }
-            $.notify.defaults(noteOption);
-            $.notify.addStyle('happyblue', {
-              html: "<div><span data-notify-text/></div>",
-              classes: {
-                base: {
-                  "white-space": "nowrap",
-                  "background-color": "#333399",
-                  "padding": "10px",
-                  "margin-top" : "45px",
-                  "border-radius" : "5px"
-                },
-                superblue: {
-                  "color": "white",
-                }
-              }
-            });
-            $.notify(str,{style:'happyblue',className:'superblue'});
-
         });
+        $('.select-on-check-all').click(function(){
+            var flag = "remove";
+            if($(this).is(':checked')) {
+                flag = "add";
+            }
+            $('.pagination').
+            $('.singlebulk_check_css').each(function(){
+                var sku = $(this).closest('tr').children().eq(2).html();
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo Yii::$app->request->baseUrl. '/index.php?r=singlebulk%2Fsample&id=1' ?>',
+                    data: {
+                        sel: sku,
+                        flag: flag
+                    },
+                    success: function(result){
+                    //   console.log(result);
+                    },
+                    error: function(result) {
+                       // alert("failed");
+                    }
+                });
+            });
+        });
+       
+       
     });
 </script>
 
 
-<!--
-Html::button("<span class='glyphicon glyphicon-plus' aria-hidden='true'></span>",
-                    ['class'=>'kv-action-btn',
-                        'onclick'=>"window.location.href = '" . \Yii::$app->urlManager->createUrl(['/create','id'=>$model->id]) . "';",
-                        'data-toggle'=>'tooltip',
-                        'title'=>Yii::t('app', 'Create New Record'),
-                    ]
-                )
-    -->

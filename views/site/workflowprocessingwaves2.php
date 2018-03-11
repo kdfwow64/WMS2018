@@ -7,10 +7,13 @@ use yii\widgets\ActiveForm;
 <?php $form = ActiveForm::begin(); ?>
 	<h1 class="wave2_h1 align_center">Wave #<?= Html::encode($model->wavenum) ?></h1>
 	<h4 class="wave2_h4">First Pick Location:</h4>
-	<h4 class="wave2_h4 align_center">BIN_LOCATION_1</h4>
+	<h4 class="wave2_h4 align_center" style="font-weight: bold;"><?= Html::encode($model->bin) ?></h4>
 	<h4 class="wave2_h4">Scan bin location to verify:</h4>
-    <?= $form->field($model, 'verify')->label(false) ?>
+    <?= $form->field($model, 'verify',['inputOptions' => ['autofocus' => 'autofocus']])->label(false) ?>
     <?= $form->field($model, 'wavenum')->hiddenInput(['value'=> $model->wavenum])->label(false) ?>
+    <?= $form->field($model, 'bin')->hiddenInput(['value'=> $model->bin])->label(false) ?>
+    <?= $form->field($model, 'item_id')->hiddenInput(['value'=> $model->item_id])->label(false) ?>
+    <?= $form->field($model, 'quantity')->hiddenInput(['value'=> $model->quantity])->label(false) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Submit', ['class' => 'btn btn-primary wave2_sub']) ?>

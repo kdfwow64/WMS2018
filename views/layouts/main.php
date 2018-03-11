@@ -34,11 +34,11 @@ AppAsset::register($this);
         'brandLabel' => '<img id="logo" src="web/logo.png" style="width:70px; margin-top:-10px;">',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-inverse navbar-fixed-top menubar_background',
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav navbar-right menutext_color'],
         'items' => [
             [
                 'label' => 'Wave Generation', 
@@ -50,6 +50,7 @@ AppAsset::register($this);
                     array('label' => 'Personalised', 'url' => ['/personal/index'])
                 )
             ],
+            ['label' => 'View Waves', 'url' => ['/waveitems/index']],
             ['label' => 'Processing Waves', 'url' => ['/site/workflowprocessingwaves']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]

@@ -17,7 +17,11 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": "~2.0.13",
         "yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0"
+        "yiisoft/yii2-swiftmailer": "~2.0.0",
+        "dompdf/dompdf": "dev-master",
+        "kartik-v/yii2-mpdf": "dev-master",
+        "picqer/api-client": "dev-master",
+        "picqer/php-barcode-generator": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

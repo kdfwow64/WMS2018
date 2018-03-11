@@ -36,7 +36,10 @@ class CustomController extends Controller
     public function actionIndex()
     {
         if(yii::$app->user->isGuest)
+        {
+            Yii::$app->session->setFlash('warning','You did not login. Please login!');
             return $this->redirect(Yii::$app->urlManager->createUrl('/site/login'));
+        }
         $searchModel = new CustomPickSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

@@ -15,10 +15,13 @@ class Wavenum1Form extends Model
 {
 	public $wavenum;
 	public $verify;
+	public $bin;
+	public $item_id;
+	public $quantity;
     public function rules()
     {
         return [
-            [['wavenum'], 'required']
+            [['wavenum','verify','bin','item_id','quantity'], 'required']
         ];
     }
 }

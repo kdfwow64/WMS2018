@@ -13,13 +13,16 @@ use yii\base\Model;
  */
 class Wavenum2Form extends Model
 {
-	public $verify;
-	public $wavenum;
-	public $wave;
+	public $verify1;
+	public $wavenum1;
+	public $bin1;
+    public $item1;
+    public $item_id1;
+    public $quantity1;
     public function rules()
     {
         return [
-            [['wavenum'], 'required']
+            [['wavenum1','bin1','verify1','item1','quantity1','item_id1'], 'required']
         ];
     }
 }

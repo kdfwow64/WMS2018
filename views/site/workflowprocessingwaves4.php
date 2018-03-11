@@ -5,14 +5,20 @@ use yii\widgets\ActiveForm;
 
 <div class="wave4_body">
 <?php $form = ActiveForm::begin(); ?>
-	<h1 class="wave4_class">Wave #<?= Html::encode($model->wavenum) ?></h1>
+	<h1 class="wave4_class">Wave #<?= Html::encode($model->wavenum2) ?></h1>
 	<h4 class="wave4_class">Please enter a License Plate for this</h4>
 
-    <?= $form->field($model, 'verify')->input('verify',['placeholder' =>'Enter LP here'])->label(false) ?>
+    <?= $form->field($model, 'plate',['inputOptions' => ['autofocus' => 'autofocus']])->input('plate',['placeholder' =>'Enter LP here'])->label(false) ?>
+
+    <?= $form->field($model, 'wavenum2')->hiddenInput(['value'=> $model->wavenum2])->label(false) ?>
+    <?= $form->field($model, 'bin2')->hiddenInput(['value'=> $model->bin2])->label(false) ?>
+    <?= $form->field($model, 'item2')->hiddenInput(['value'=> $model->item2])->label(false) ?>
+    <?= $form->field($model, 'item_id2')->hiddenInput(['value'=> $model->item_id2])->label(false) ?>
+    <?= $form->field($model, 'quantity2')->hiddenInput(['value'=> $model->quantity2])->label(false) ?>
     <br>
     <div class="form-group">
-        <?= Html::button('Submit', ['class' => 'btn btn-primary wave4_sub']) ?>
-    </div>
+            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary wave4_sub']) ?>
+        </div>
 <?php ActiveForm::end(); ?>
 </div>
 

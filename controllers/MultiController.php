@@ -8,6 +8,7 @@ use app\models\MultiPickSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\SqlDataProvider;
 
 /**
  * MultiPickController implements the CRUD actions for OrderDispatchItems model.
@@ -36,12 +37,22 @@ class MultiController extends Controller
     public function actionIndex()
     {
         if(yii::$app->user->isGuest)
+        {
+            Yii::$app->session->setFlash('warning','You did not login. Please login!');
             return $this->redirect(Yii::$app->urlManager->createUrl('/site/login'));
-        $searchModel = new MultiPickSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        }
+//        $selection = (array) Yii::$app->request->post('selection');
+//        $model = new SingleBulkSearch();
+//        $model->insertItemsIntoWaves_WavesItems($selection);
+        $dataProvider = new SqlDataProvider([
+            'db' => Yii::$app->db,
+            'sql' => "SELECT parent_order_ID, CONCAT(SKU, '(',COUNT(SKU), ')') AS SKU1,SKU,COUNT(SKU) AS COUNT,wl.warehouse_name AS location FROM order_dispatch_items od JOIN warehouse_locations wl ON wl.warehouse_id = od.location WHERE od.status LIKE 'U'  GROUP BY SKU HAVING COUNT(*) > 1",
+            'pagination' => [
+                'pageSize' =>50,
+            ],
+        ]);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+        return $this->render('index',[
             'dataProvider' => $dataProvider,
         ]);
     }

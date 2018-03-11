@@ -36,7 +36,10 @@ class PersonalController extends Controller
     public function actionIndex()
     {
         if(yii::$app->user->isGuest)
+        {
+            Yii::$app->session->setFlash('warning','You did not login. Please login!');
             return $this->redirect(Yii::$app->urlManager->createUrl('/site/login'));
+        }
         $searchModel = new PersonalSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

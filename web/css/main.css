@@ -11,42 +11,156 @@
 	}
 }
 */
-.bulk_table {
-	width: 400px;
+
+/*redefine*/
+.navbar-inverse .navbar-nav > li > a {
+	color: #dff0d8 !important;
+}
+.navbar-inverse .btn-link {
+	color: #dff0d8 !important;
+}
+/*redefine end*/
+.menubar_background {
+	background: linear-gradient(to right, rgb(86, 78, 204) 0%, rgb(25, 91, 111) 50%, rgb(92, 34, 93) 100%);
+}
+.singlebulk_table {
+	width: 700px;
 	margin: auto;
 }
-.table_height {
-}
-.table_height thead {
+.singlebulk_table thead {
 	float: left;
 	width: 100%;
 }
- .table_height tbody {
+ .singlebulk_table tbody {
 	float: left;
 	overflow: auto;
 	width: 100%;
 	height: 400px;
+	font-weight: bold;
 }
-.table_height table td:nth-child(1) {
+.singlebulk_table table td:nth-child(1) {
 	width: 30px;
 }
-.table_height table td:nth-child(2) {
-	width: 60px;
+.singlebulk_table table td:nth-child(2) {
+	width: 50px;
+	text-align: center;
 }
-.table_height table td:nth-child(3) {
-	width: 80%;
+.singlebulk_table table td:nth-child(3) {
+	width: 62%;
+	text-align: center;
+}
+.singlebulk_table table td:nth-child(4) {
+	width: 27%;
+	text-align: center;
 }
 
-.table_height table th:nth-child(1) {
+.singlebulk_table table th:nth-child(1) {
 	width: 30px;
 }
-.table_height table th:nth-child(2) {
-	width: 60px;
+.singlebulk_table table th:nth-child(2) {
+	width: 50px;
+	text-align: center;
 }
-.table_height table th:nth-child(3) {
-	width: 81%;
+.singlebulk_table table th:nth-child(3) {
+	width: 60%;
+	text-align: center;
+}
+.singlebulk_table table th:nth-child(4) {
+	width: 29% !important;
+	text-align: center;
+}
+.singlebulk_table th {
+	background: linear-gradient(to bottom, #a295ea, #6c65da);
+}
+.singlebulk_table tr:nth-of-type(odd)
+{
+	background-color: #afb0d0 !important;
+    color: #083f54;
+}
+.singlebulk_table tr:nth-of-type(even)
+{
+	background-color: #abadde !important;
+    color: #083f54;
+}
+.singlebulk_title {
+	margin-left: -437px;
 }
 
+.singlebulk_table .summary{
+	float: right;
+}
+
+
+
+/* View Waves CSS*/
+
+.waveitems_table {
+	width: 700px;
+	margin: auto;
+}
+.waveitems_table thead {
+	float: left;
+	width: 100%;
+}
+ .waveitems_table tbody {
+	float: left;
+	overflow: auto;
+	width: 100%;
+	height: 400px;
+	font-weight: bold;
+}
+.waveitems_table table td:nth-child(1) {
+	width: 40px;
+}
+.waveitems_table table td:nth-child(2) {
+	width: 340px;
+	text-align: center;
+}
+.waveitems_table table td:nth-child(3) {
+	width: 100px;
+	text-align: center;
+}
+.waveitems_table table td:nth-child(4) {
+	width: 122px;
+	text-align: center;
+}
+.waveitems_table table td:nth-child(5) {
+	width: 95px;
+	text-align: center;
+}
+
+.waveitems_table table th:nth-child(1) {
+	width: 40px;
+}
+.waveitems_table table th:nth-child(2) {
+	width: 340px;
+	text-align: center;
+}
+.waveitems_table table th:nth-child(3) {
+	width: 100px;
+	text-align: center;
+}
+.waveitems_table table th:nth-child(4) {
+	width: 110px;
+	text-align: center;
+}
+.waveitems_table table th:nth-child(5) {
+	width: 95px;
+	text-align: center;
+}
+.waveitems_table th {
+	background: linear-gradient(to bottom, #a295ea, #6c65da);
+}
+.waveitems_table tr:nth-of-type(odd)
+{
+	background-color: #afb0d0 !important;
+    color: #083f54;
+}
+.waveitems_table tr:nth-of-type(even)
+{
+	background-color: #abadde !important;
+    color: #083f54;
+}
 
 
 table { 

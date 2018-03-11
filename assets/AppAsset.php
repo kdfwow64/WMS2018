@@ -26,6 +26,9 @@ class AppAsset extends AssetBundle
     public $js = [
         'web/js/notify.min.js',
         'web/js/notify.js',
+        'web/js/main.js',
+        'web/js/jquery-barcode.js',
+        'web/js/jquery-barcode.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

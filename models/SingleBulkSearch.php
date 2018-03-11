@@ -55,28 +55,33 @@ class SingleBulkSearch extends OrderDispatchItems
         return $locations;
     }
 
-    public function setStatus($params)
+    public function insertItemsIntoWaves_WavesItems($params)
     {
         //ALTER TABLE waves AUTO_INCREMENT = 1000000
         $count = 0;
-        $date1 = new \yii\db\Expression('NOW()');
+        $date1 = date('Y-m-d H:i:s');
         for($i =0 ;$i<sizeof($params); $i++){
             Yii::$app->db->createCommand("UPDATE order_dispatch_items SET status = 'P' WHERE SKU LIKE '".$params[$i]."' ")->query();
             $count1 = Yii::$app->db->createCommand("SELECT COUNT(SKU) FROM order_dispatch_items WHERE SKU LIKE  '".$params[$i]."'  ")->queryScalar();
             $count +=$count1;
         }
         //add a row into waves table
+        $wave_num = 1000001;
         if($count>0){
-            Yii::$app->db->createCommand("INSERT INTO waves (number_order_dispatch_in_wave,printed_timestamp) VALUES (".$count.",'".$date1."')")->query();
+            // is there is no member in waves table set wave_number = 1000000
+            $isEmpty = Yii::$app->db->createCommand("SELECT COUNT(*) FROM waves")->queryScalar();
+            if($isEmpty > 0) {
+                $wave_num = Yii::$app->db->createCommand("SELECT MAX(wave_number) FROM waves")->queryScalar();
+                $wave_num++;
+            }
+            Yii::$app->db->createCommand("INSERT INTO waves (wave_number, number_order_dispatch_in_wave,printed_timestamp) VALUES (".$wave_num.",".$count.",'".$date1."')")->query();
         }
-        //get wave id
-        $count = Yii::$app->db->createCommand("SELECT MAX(id) FROM waves")->queryScalar();
         //add rows into wave_items
         for($i =0 ;$i<sizeof($params); $i++){
 
             $rows = Yii::$app->db->createCommand("SELECT * FROM order_dispatch_items WHERE SKU LIKE  '".$params[$i]."'  ")->queryAll();
             foreach($rows as $row){
-                Yii::$app->db->createCommand("INSERT INTO wave_items (order_dispatch_id,quantity,location_id,parent_wave_number) VALUES (".$row['parent_order_ID'].",'".$row['quantity']."','".$row['location']."',".$count.")")->query();
+                Yii::$app->db->createCommand("INSERT INTO wave_items (order_dispatch_id,quantity,location_id,parent_wave_number,status,bin_location_id,item_id) VALUES (".$row['parent_order_ID'].",'".$row['quantity']."','".$row['location']."',".$wave_num.",'G','".$row['location']."',".$row['id'].")")->query();
             }
         }
     }

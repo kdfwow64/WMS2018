@@ -5,17 +5,20 @@ use yii\widgets\ActiveForm;
 
 <div class="wave3_body">
 	<?php $form = ActiveForm::begin(); ?>
-		<h1 class="wave3_h1 align_center">Wave #<?= Html::encode($model->wavenum) ?></h1>
+		<h1 class="wave3_h1 align_center">Wave #<?= Html::encode($model->wavenum1) ?></h1>
 		<h4 class="wave3_h4">You are now at:</h4>
-		<h4 class="wave3_h4 align_center">BIN_LOCATION_1</h4>
+		<h4 class="wave3_h4 align_center"><?= Html::encode($model->bin1) ?></h4>
 		<h4 class="wave3_h4">The first item to pick from this bin is:</h4>
-		<h4 class="wave3_h4 align_center">ITEM_1</h4>
+		<h4 class="wave3_h4 align_center"><?= Html::encode($model->item1) ?></h4>
 		<h4 class="wave3_h4">You need to pick a quantity of:</h4>
-		<h4 class="wave3_h4 align_center">1</h4>
+		<h4 class="wave3_h4 align_center"><?= Html::encode($model->quantity1) ?></h4>
 		<h4 class="wave3_h4">Enter item to verify</h4>
-	    <?= $form->field($model, 'verify')->label(false) ?>
-	    <?= $form->field($model, 'wavenum')->hiddenInput(['value'=> $model->wavenum])->label(false) ?>
-	    <?= $form->field($model, 'wave')->hiddenInput(['value'=> $model->wavenum])->label(false) ?>
+	    <?= $form->field($model, 'verify1',['inputOptions' => ['autofocus' => 'autofocus']])->label(false) ?>
+	    <?= $form->field($model, 'wavenum1')->hiddenInput(['value'=> $model->wavenum1])->label(false) ?>
+	    <?= $form->field($model, 'bin1')->hiddenInput(['value'=> $model->bin1])->label(false) ?>
+	    <?= $form->field($model, 'item1')->hiddenInput(['value'=> $model->item1])->label(false) ?>
+	    <?= $form->field($model, 'item_id1')->hiddenInput(['value'=> $model->item_id1])->label(false) ?>
+	    <?= $form->field($model, 'quantity1')->hiddenInput(['value'=> $model->quantity1])->label(false) ?>
 
 	    <div class="form-group">
 	        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary wave3_sub']) ?>
@@ -58,7 +61,6 @@ use yii\widgets\ActiveForm;
     width: 220px;
     margin: auto;
     margin-top: 30px;
-    height: 50px;
 }
 
 .wave3_sub {	

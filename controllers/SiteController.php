@@ -13,6 +13,7 @@ use app\models\SinglePickOrdersForm;
 use app\models\WavenumForm;
 use app\models\Wavenum1Form;
 use app\models\Wavenum2Form;
+use app\models\Wavenum3Form;
 use app\models\OrderDispatch;
 use yii\data\Pagination;
 
@@ -101,9 +102,9 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        //    Yii::$app->session->setFlash('warning','go back');
             return $this->goBack();
         }
 
@@ -182,27 +183,99 @@ class SiteController extends Controller
     }
     public function actionWorkflowprocessingwaves()
     {
+        if(yii::$app->user->isGuest)
+        {
+            Yii::$app->session->setFlash('warning','You did not login. Please login!');
+            return $this->redirect(Yii::$app->urlManager->createUrl('/site/login'));
+        }
+
+        $available_count = Yii::$app->db->createCommand("SELECT COUNT(*) FROM wave_items WHERE status LIKE 'G' ")->queryScalar();
+        if($available_count==0)
+            Yii::$app->session->setFlash('warning','You have nothing to change!');
         $model = new WavenumForm(); // only wavenum
         $model1 = new Wavenum1Form(); // wavenum and verify
         $model4 = new Wavenum2Form(); // wavenum,wave, verify
+        $model7 = new Wavenum3Form(); 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             // valid data received in $model
 
             // do something meaningful here about $model ...
             $model2 = new Wavenum1Form();
             $model2->wavenum = $model->wavenum;
-            return $this->render('workflowprocessingwaves2', ['model' => $model2]);
-        } 
-        if ($model1->load(Yii::$app->request->post()) && $model1->validate()) {
-            // either the page is initially displayed or there is some validation error
-            $model5 = new Wavenum2Form();
-            $model5->wavenum = $model1->wavenum;
-            $model5->verify = $model1->verify;
-            return $this->render('workflowprocessingwaves3', ['model' => $model5]);
+            $row = Yii::$app->db->createCommand("SELECT * FROM wave_items WHERE status LIKE 'G' AND parent_wave_number = ".$model2->wavenum)->queryOne();
+            if(!$row) {
+                Yii::$app->session->setFlash('warning','Please input correct Wave number!');
+                $model->wavenum = "";
+                return $this->render('workflowprocessingwaves1', ['model' => $model]);
+            } else {
+                $bin_location = Yii::$app->db->createCommand("SELECT bin_location FROM bin_locations WHERE warehouse_id = ".$row['bin_location_id'])->queryScalar();
+                $model2->wavenum = $model->wavenum;
+                $model2->bin = $bin_location;
+                $model2->item_id = $row['item_id'];
+                $model2->quantity = $row['quantity'];
+                return $this->render('workflowprocessingwaves2', ['model' => $model2]); 
+            }
         }
-        if ($model4->load(Yii::$app->request->post()) && $model4->validate()) {
+        if ($model1->load(Yii::$app->request->post())) {
             // either the page is initially displayed or there is some validation error
-            return $this->render('workflowprocessingwaves4', ['model' => $model4]);
+            if(strcmp($model1->bin,$model1->verify) != 0) {
+                Yii::$app->session->setFlash('warning',"It doesn't match!");
+                $model1->verify = "";
+                return $this->render('workflowprocessingwaves2', ['model' => $model1]);
+            } else {
+                $model5 = new Wavenum2Form();
+                $model5->wavenum1 = $model1->wavenum;
+                $model5->bin1 = $model1->bin;
+                $model5->item_id1 = $model1->item_id;
+                $model5->item1 =  Yii::$app->db->createCommand("SELECT SKU FROM order_dispatch_items WHERE id = ".$model1->item_id)->queryScalar();
+                $model5->quantity1 = $model1->quantity;
+                return $this->render('workflowprocessingwaves3', ['model' => $model5]);
+            }
+        }
+        if ($model4->load(Yii::$app->request->post())) {
+            if(strcmp($model4->item1,$model4->verify1) != 0) {
+                Yii::$app->session->setFlash('warning',"It doesn't match!");
+                $model4->verify1 = "";
+                return $this->render('workflowprocessingwaves3', ['model' => $model4]);
+            } else {
+                $model8 = new Wavenum3Form();
+                $model8->wavenum2 = $model4->wavenum1;
+                $model8->bin2 = $model4->bin1;
+                $model8->item2 = $model4->item1;
+                $model8->quantity2 = $model4->quantity1;
+                $model8->item_id2 = $model4->item_id1;
+                return $this->render('workflowprocessingwaves4', ['model' => $model8]);
+            }
+        }
+        if ($model7->load(Yii::$app->request->post())) {
+            if(empty($model7->plate))
+                $model7->plate = rand(1000000000,9999999999);
+            Yii::$app->db->createCommand("UPDATE wave_items SET license_plate = '".$model7->plate."' , status = 'P' WHERE parent_wave_number = ".$model7->wavenum2." AND item_id = ".$model7->item_id2)->query();
+            $count = Yii::$app->db->createCommand("SELECT COUNT(*) FROM wave_items WHERE status = 'G' ")->queryScalar();
+            // Anything to change further?
+            if($count != 0) {
+                $model9 = new WavenumForm;
+                $count_same = Yii::$app->db->createCommand("SELECT COUNT(*) FROM wave_items WHERE status = 'G' AND parent_wave_number = ".$model7->wavenum2)->queryScalar();
+                //Same wave number items exist?
+                if($count_same != 0 ) {
+                    $mode = new Wavenum1Form();
+                    $mode->wavenum = $model7->wavenum2;
+                    $row = Yii::$app->db->createCommand("SELECT * FROM wave_items WHERE status LIKE 'G' AND parent_wave_number = ".$mode->wavenum)->queryOne();
+
+                    $bin_location = Yii::$app->db->createCommand("SELECT bin_location FROM bin_locations WHERE warehouse_id = ".$row['bin_location_id'])->queryScalar();
+                    $mode->bin = $bin_location;
+                    $mode->item_id = $row['item_id'];
+                    $mode->quantity = $row['quantity'];
+                    Yii::$app->session->setFlash('success',"Successfully Changed! Please try with the save Wave!");
+                    return $this->render('workflowprocessingwaves2', ['model' => $mode]);
+
+                } else {
+                    Yii::$app->session->setFlash('success',"Successfully Changed! Please try another Wave!");
+                    return $this->render('workflowprocessingwaves1', ['model' => $model9]);
+                }
+            } else {
+                Yii::$app->session->setFlash('success',"Successfully Changed! You have nothing to do now. ");
+            }
         }
         return $this->render('workflowprocessingwaves1', ['model' => $model]);
     }

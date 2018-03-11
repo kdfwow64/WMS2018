@@ -6,8 +6,7 @@ use yii\widgets\ActiveForm;
 <?php $form = ActiveForm::begin(); ?>
 	<h4>Enter Wave Number:</h4>
 
-    <?= $form->field($model, 'wavenum')->textInput(['type' => 'number'])->label(false) ?>
-
+    <?= $form->field($model, 'wavenum',['inputOptions' => ['autofocus' => 'autofocus']])->textInput(['type' => 'number'])->label(false) ?>
     <div class="form-group">
         <?= Html::submitButton('Submit', ['class' => 'btn btn-primary wave1_sub']) ?>
     </div>
